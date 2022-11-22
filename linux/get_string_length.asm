@@ -20,11 +20,12 @@ _start:
         call printInitialPrompt
         call readLine
         call printStringLengthPrompt
+        xor ecx, ecx
         mov ecx, [string]
         call strlen
         ; save the string length in edi (as a function parameter to printNumber)
-        ;mov edi, [longitudCadenaFinal]
-        ;call printNumber
+        mov edi, [longitudCadenaFinal]
+        call printNumber
 exit:
         mov eax, 1
         int 0x80
@@ -58,7 +59,7 @@ strlen:
 
 _strlen_next:
     
-    cmp   [ecx], byte 0  ; null byte yet?
+    cmp   ecx, byte 0  ; null byte yet?
     jz    _strlen_null   ; yes, get out
 
     inc   eax            ; char is ok, count it
@@ -81,6 +82,7 @@ printNumber:
 
 recurse:
         xor eax, eax
+        xor ecx, ecx
         mov eax, edi
         mov edx, 0
         mov ecx, 10
